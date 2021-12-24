@@ -38,18 +38,17 @@ var asParameters = {
 const images = {
   load: 'https://raw.githubusercontent.com/otaviocorrea/tribal-wars/main/assets/img/load.gif',
 }
-var pid = 0;
 var units = {archer: 0,axe: 0,catapult: 0,heavy: 0,knight: 0,light: 0,marcher: 0,militia: 0,ram: 0,snob: 0,spear: 0,spy: 0,sword: 0};
 var farmActive = false;
 var startButton = null;
 
 // LOADERS
 const loadSettings = () => {
-  let temp = localStorage.getItem(pid + '-farm-map-settings');
+  let temp = localStorage.getItem('farm-map-settings');
   if(temp){temp = JSON.parse(temp)}
   else{
-    localStorage.setItem(pid + '-farm-map-settings', JSON.stringify(settings))
-    temp = JSON.parse(localStorage.getItem(pid+'-farm-map-settings'));
+    localStorage.setItem('farm-map-settings', JSON.stringify(settings))
+    temp = JSON.parse(localStorage.getItem('farm-map-settings'));
   }
   settings = temp
 }
@@ -210,7 +209,7 @@ const endFarm = () => {
 const initFarm = () => {
   if(farmActive) return;
   farmActive = true;
-  sessionStorage.setItem(pid + '-map-farm-active', farmActive);
+  sessionStorage.setItem('map-farm-active', farmActive);
   startButton.innerHTML = `Stop Farm`;
   console.log('🟢🤖 Autofarm started!');
   farm(getParsedVillages());
@@ -219,7 +218,7 @@ const initFarm = () => {
 const killFarm = () => {
   if(!farmActive) return;
   farmActive = false;
-  sessionStorage.setItem(pid + '-map-farm-active', farmActive);
+  sessionStorage.setItem('map-farm-active', farmActive);
   startButton.innerHTML = `Start Farm`;
   console.log('🛑🤖 Autofarm stopped!');
 }
@@ -234,8 +233,7 @@ const nextVillage = () => {
 
 // INITIATORS
 const init = async () => {
-  pid = game_data.player.id;
-  farmActive = sessionStorage.getItem(pid + '-map-farm-active') == 'true';
+  farmActive = sessionStorage.getItem('map-farm-active') == 'true';
   loadSettings();
   loadAsParameters();
   createScreeenElements();

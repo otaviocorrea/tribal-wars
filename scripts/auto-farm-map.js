@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name          SUPER Auto-farm on the Map by Otavio Corrêa
-// @version       1.0.0
+// @version       1.0.1
 // @namespace     https://github.com/otaviocorrea/tribal-wars
 // @email         otaviocorrea@gmail.com
 // @description   Automatically farm barbarian villages on the map using loot wizard

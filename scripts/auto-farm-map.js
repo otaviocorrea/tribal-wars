@@ -6,7 +6,6 @@
 // @description   Automatically farm barbarian villages on the map using farm assistent
 // @author        Otavio Corrêa P. Silva
 // @include       https://*&screen=map*
-// @require       http://code.jquery.com/jquery-1.12.4.min.js
 // @downloadURL   https://raw.githubusercontent.com/otaviocorrea/tribal-wars/main/scripts/auto-farm-map.js
 // @updateURL     https://github.com/otaviocorrea/tribal-wars/raw/main/scripts/auto-farm-map.js
 // @icon          https://raw.githubusercontent.com/otaviocorrea/tribal-wars/main/assets/img/map.png

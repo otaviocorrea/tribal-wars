@@ -1,4 +1,11 @@
+# How to use 
+Use scripts from the 'scripts' folder in the [TamperMonkey](https://www.tampermonkey.net/) browser extension or some similar extension that supports the same types of scripts (e.g.: Greasemonkey, Powerlet and others)
 
+## Available scripts
+* [Auto-farm on the map](scripts/auto-farm-map.js)
+
+## Image URLs
+Just an annotation 😆
 ```javascript
   units:{
     spear: 'https://raw.githubusercontent.com/otaviocorrea/tribal-wars/main/assets/img/unit_spear.png',

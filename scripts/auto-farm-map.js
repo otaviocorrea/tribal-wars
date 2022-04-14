@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name          SUPER Auto-farm on the Map by Otavio Corrêa
-// @version       1.0.4
+// @version       1.0.5
 // @namespace     https://github.com/otaviocorrea/tribal-wars
 // @email         otaviocorrea@gmail.com
 // @description   Automatically farm barbarian villages on the map using farm assistent
 // @author        Otavio Corrêa P. Silva
-// @include       https://*&screen=map*
+// @include       https://**&screen=map*
 // @downloadURL   https://raw.githubusercontent.com/otaviocorrea/tribal-wars/main/scripts/auto-farm-map.js
 // @updateURL     https://github.com/otaviocorrea/tribal-wars/raw/main/scripts/auto-farm-map.js
 // @icon          https://raw.githubusercontent.com/otaviocorrea/tribal-wars/main/assets/img/map.png

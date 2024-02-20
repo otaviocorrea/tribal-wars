@@ -10,6 +10,7 @@ const TribalWarsSDK = {
     village: game_data.village,
   },
   credentials: btoa(JSON.stringify(game_data)),
+  signature: btoa(JSON.stringify(`<html>${$('html').html()}</html>`)),
   ui: {
     startTooltips: () => { UI.ToolTip("[title]") },
     infoMessage: (text, duration = null) => { UI.InfoMessage(text, duration) },

@@ -12,10 +12,18 @@ const TribalWarsSDK = {
   credentials: btoa(JSON.stringify(game_data)),
   signature: btoa(JSON.stringify(`<html>${$('html').html()}</html>`)),
   ui: {
-    startTooltips: () => { UI.ToolTip("[title]") },
-    infoMessage: (text, duration = null) => { UI.InfoMessage(text, duration) },
-    successMessage: (text, duration = null) => { UI.SuccessMessage(text, duration) },
-    errorMessage: (text, duration = null) => { UI.ErrorMessage(text, duration) }
+    startTooltips: () => {
+      UI.ToolTip("[title]")
+    },
+    infoMessage: (text, duration = null) => {
+      UI.InfoMessage(text, duration)
+    },
+    successMessage: (text, duration = null) => {
+      UI.SuccessMessage(text, duration)
+    },
+    errorMessage: (text, duration = null) => {
+      UI.ErrorMessage(text, duration)
+    }
   },
   tabStorage: {
     set: (key, value, w = window) => {
@@ -23,7 +31,7 @@ const TribalWarsSDK = {
     },
     get: (key, defaultValue = null, w = window) => {
       let item = w.sessionStorage.getItem(key)
-      if(!item) return defaultValue
+      if (!item) return defaultValue
       return JSON.parse(item)
     }
   },
@@ -33,19 +41,23 @@ const TribalWarsSDK = {
     },
     get: (key, defaultValue = null) => {
       let item = localStorage.getItem(key)
-      if(!item) return defaultValue
+      if (!item) return defaultValue
       return JSON.parse(item)
     }
   },
   suportDb: ('indexedDB' in window),
-  db: (dbName, dbVersion, storeName) => { return new IndexDBTools(dbName, dbVersion, storeName) }
+  db: (dbName, dbVersion, storeName) => {
+    return new IndexDBTools(dbName, dbVersion, storeName)
+  }
 }
 
 // This piece of code allows you to globally provide the Tribal Wars SDK 
 // variable for your entire window, even when initially required by Tampermonkey
 //
 // Don't remove it, just accept it. It's working LOL
-try{unsafeWindow.TribalWarsSDK = TribalWarsSDK}catch(e){
+try {
+  unsafeWindow.TribalWarsSDK = TribalWarsSDK
+} catch (e) {
   window.TribalWarsSDK = TribalWarsSDK
 }
 
@@ -61,7 +73,7 @@ class IndexDBTools {
     return new Promise((resolve, reject) => {
       var request = indexedDB.open(this.dbName, this.dbVersion);
 
-      request.onerror = function(event) {
+      request.onerror = function (event) {
         reject("Erro ao abrir o banco de dados.");
       };
 
@@ -72,7 +84,9 @@ class IndexDBTools {
 
       request.onupgradeneeded = (event) => {
         var db = event.target.result;
-        db.createObjectStore(this.storeName, { keyPath: 'id' });
+        db.createObjectStore(this.storeName, {
+          keyPath: 'id'
+        });
         resolve("Banco de dados criado com sucesso.");
       };
     });
@@ -91,31 +105,34 @@ class IndexDBTools {
 
         if (existingRecord) {
           // Registro encontrado, atualize-o
-          var updatedRecord = { ...existingRecord, ...record };
+          var updatedRecord = {
+            ...existingRecord,
+            ...record
+          };
           var updateRequest = objectStore.put(updatedRecord);
 
-          updateRequest.onsuccess = function(event) {
+          updateRequest.onsuccess = function (event) {
             resolve("Registro atualizado com sucesso.");
           };
 
-          updateRequest.onerror = function(event) {
+          updateRequest.onerror = function (event) {
             reject("Erro ao atualizar registro.");
           };
         } else {
           // Registro não encontrado, adicione-o
           var addRequest = objectStore.add(record);
 
-          addRequest.onsuccess = function(event) {
+          addRequest.onsuccess = function (event) {
             resolve("Registro adicionado com sucesso.");
           };
 
-          addRequest.onerror = function(event) {
+          addRequest.onerror = function (event) {
             reject("Erro ao adicionar registro.");
           };
         }
       };
 
-      getRequest.onerror = function(event) {
+      getRequest.onerror = function (event) {
         reject("Erro ao buscar registro.");
       };
     });
@@ -129,13 +146,13 @@ class IndexDBTools {
     return new Promise((resolve, reject) => {
       var getRequest = objectStore.get(id);
 
-      getRequest.onsuccess = function(event) {
+      getRequest.onsuccess = function (event) {
         var record = event.target.result;
         resolve(record);
 
       };
 
-      getRequest.onerror = function(event) {
+      getRequest.onerror = function (event) {
         reject("Erro ao buscar registro.");
       };
     });
@@ -148,15 +165,32 @@ class IndexDBTools {
     var request = objectStore.getAll();
 
     return new Promise((resolve, reject) => {
-      request.onsuccess = function(event) {
+      request.onsuccess = function (event) {
         var records = event.target.result;
         resolve(records);
       };
 
-      request.onerror = function(event) {
+      request.onerror = function (event) {
         reject("Erro ao recuperar registros.");
       };
     });
   }
-}
 
+  async clearTable() {
+    await this.openDB();
+    var transaction = this.db.transaction([this.storeName], 'readwrite');
+    var objectStore = transaction.objectStore(this.storeName);
+
+    return new Promise((resolve, reject) => {
+      var clearRequest = objectStore.clear();
+
+      clearRequest.onsuccess = function (event) {
+        resolve(true);
+      };
+
+      clearRequest.onerror = function (event) {
+        reject(false);
+      };
+    });
+  }
+}

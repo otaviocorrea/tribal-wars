@@ -50,7 +50,8 @@ const TribalWarsSDK = {
   suportDb: ('indexedDB' in window),
   db: (dbName, dbVersion, storeName) => {
     return new IndexDBTools(dbName, dbVersion, storeName)
-  }
+  },
+  b64: Base64
 }
 
 // This piece of code allows you to globally provide the Tribal Wars SDK 

@@ -51,7 +51,49 @@ const TribalWarsSDK = {
   db: (dbName, dbVersion, storeName) => {
     return new IndexDBTools(dbName, dbVersion, storeName)
   },
-  b64: Base64
+  b64: Base64,
+  groups: {
+    get: () => {
+      let groups = null
+      jQuery.ajax({
+        url: `/game.php?village=${game_data.village.id}&screen=groups&mode=overview&ajax=load_group_menu&`,
+        success: function (result) {
+           groups = result.result
+        },
+        async: false
+      });
+      return groups
+    },
+    set: (groupId) => {
+      jQuery.ajax({
+        url: `/game.php?village=${game_data.village.id}&screen=overview_villages&mode=combined&group=${groupId}`,
+        success: function (result) {
+          //nada
+        },
+        async: false
+      });
+    },
+    getVillages: (groupId) => {
+      const currentGroupId = game_data.group_id
+      let villages = []
+      jQuery.ajax({
+        url: `/game.php?village=${game_data.village.id}&screen=overview_villages&mode=combined&group=${groupId}&page=-1&`,
+        success: function (result) {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(result, 'text/html');
+          const table = htmlDoc.getElementById('combined_table')
+          table.querySelectorAll('.quickedit-vn').forEach(e => {
+            const id = e.attributes['data-id'].value
+            const name = e.innerText.trim()
+            villages.push({id, name})
+          })
+        },
+        async: false
+      });
+      this.groups.set(currentGroupId)
+      return villages
+    }
+  }
 }
 
 // This piece of code allows you to globally provide the Tribal Wars SDK 

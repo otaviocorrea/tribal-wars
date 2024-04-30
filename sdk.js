@@ -53,7 +53,7 @@ const TribalWarsSDK = {
   },
   b64: Base64,
   groups: {
-    get: () => {
+    getAll: function() {
       let groups = null
       jQuery.ajax({
         url: `/game.php?village=${game_data.village.id}&screen=groups&mode=overview&ajax=load_group_menu&`,
@@ -64,7 +64,7 @@ const TribalWarsSDK = {
       });
       return groups
     },
-    set: (groupId) => {
+    set: function(groupId) {
       jQuery.ajax({
         url: `/game.php?village=${game_data.village.id}&screen=overview_villages&mode=combined&group=${groupId}`,
         success: function (result) {
@@ -73,7 +73,7 @@ const TribalWarsSDK = {
         async: false
       });
     },
-    getVillages: (groupId) => {
+    get: function(groupId) {
       const currentGroupId = game_data.group_id
       let villages = []
       jQuery.ajax({
@@ -90,7 +90,7 @@ const TribalWarsSDK = {
         },
         async: false
       });
-      this.groups.set(currentGroupId)
+      this.set(currentGroupId)
       return villages
     }
   }

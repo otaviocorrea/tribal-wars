@@ -73,6 +73,7 @@ const TribalWarsSDK = {
         url: `/game.php?village=${game_data.village.id}&screen=groups&ajax=load_villages_from_group`,
         contentType: false,
         processData: false,
+        data: formData,
         success: function (result) {
           //nada
         },

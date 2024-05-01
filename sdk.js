@@ -12,7 +12,7 @@ const TribalWarsSDK = {
     village: game_data.village,
   },
   credentials: Base64.encode(JSON.stringify(game_data)),
-  signature:  Base64.encode(`<html>${document.querySelector('html').innerHTML}</html>`),
+  signature:  Base64.encode(Base64.encode(JSON.stringify(game_data))),
   ui: {
     startTooltips: () => {
       UI.ToolTip("[title]")

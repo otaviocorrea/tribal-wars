@@ -65,8 +65,14 @@ const TribalWarsSDK = {
       return groups
     },
     set: function(groupId) {
+      let formData = new FormData()
+      formData.append('h', game_data.csrf);
+      formData.append('group_id', groupId),
       jQuery.ajax({
-        url: `/game.php?village=${game_data.village.id}&screen=overview_villages&mode=combined&group=${groupId}`,
+        type: 'POST',
+        url: `/game.php?village=${game_data.village.id}&screen=groups&ajax=load_villages_from_group`,
+        contentType: false,
+        processData: false,
         success: function (result) {
           //nada
         },

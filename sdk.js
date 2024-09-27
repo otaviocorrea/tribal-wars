@@ -144,6 +144,42 @@ class IndexDBTools {
     });
   }
 
+  async createTable() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(this.dbName, this.dbVersion);
+  
+      request.onerror = function (event) {
+        reject("Erro ao abrir o banco de dados.");
+      };
+  
+      request.onsuccess = (event) => {
+        const db = event.target.result;
+        if (!db.objectStoreNames.contains(this.storeName)) {
+          const transaction = db.transaction(this.storeName, "readwrite");
+          transaction.oncomplete = () => {
+            resolve("Object store criado com sucesso.");
+          };
+          transaction.onerror = () => {
+            reject("Erro ao criar object store.");
+          };
+  
+          // O código para criar o store deve estar aqui
+          const upgradeRequest = indexedDB.open(this.dbName, this.dbVersion);
+          upgradeRequest.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains(this.storeName)) {
+              db.createObjectStore(this.storeName, {
+                keyPath: 'id'
+              });
+            }
+          };
+        } else {
+          resolve("Object store já existe.");
+        }
+      };
+    });
+  }
+
   async addOrUpdate(record) {
     await this.openDB();
     var transaction = this.db.transaction([this.storeName], 'readwrite');

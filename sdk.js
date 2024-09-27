@@ -123,7 +123,7 @@ class IndexDBTools {
 
   async openDB() {
     return new Promise((resolve, reject) => {
-      var request = indexedDB.open(this.dbName, this.dbVersion);
+      var request = indexedDB.open(this.dbName, Date.now());
 
       request.onerror = function (event) {
         reject("Erro ao abrir o banco de dados.");
@@ -135,11 +135,14 @@ class IndexDBTools {
       };
 
       request.onupgradeneeded = (event) => {
-        var db = event.target.result;
-        db.createObjectStore(this.storeName, {
-          keyPath: 'id'
-        });
-        resolve("Banco de dados criado com sucesso.");
+        const db = event.target.result;
+        // Verifica se o object store já existe
+        if (!db.objectStoreNames.contains(this.storeName)) {
+          db.createObjectStore(this.storeName, { keyPath: 'id' });
+          console.log("Object store criado com sucesso.");
+        } else {
+          console.log("Object store já existe.");
+        }
       };
     });
   }
